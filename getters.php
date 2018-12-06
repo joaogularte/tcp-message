@@ -1,37 +1,38 @@
 <?php
 
     function getWho(){
-        echo "--------------------------\n";
-        echo ">>>>    TCP Server    <<<<\n";
-        echo "--------------------------\n";
-        echo "by jvg\n";
+        $msg = "--------------------------\n";
+        $msg .= ">>>>    TCP Server    <<<<\n";
+        $msg .= "--------------------------\n";
+        $msg .= "by jvg\n";
+        return $msg;
     };
 
     function getTime(){
-        echo "Data atual: ".date('d-m-Y')."\n";
+        return "Data atual: ".date('d-m-Y')."\n";
     }
 
     function getIP(){
         $ip = shell_exec("hostname -I | cut -d ' ' -f1");
-        echo "IP: ".$ip;
+        return "IP: ".$ip;
     }
 
     function getMAC(){
         $mac = shell_exec("ifconfig enp1s0 | grep ether | cut -d ' ' -f10");
-        echo "MAC: ".$mac;
+        return "MAC: ".$mac;
     }
   
     function getOS(){
-        echo "OS: ".PHP_OS."\n";
+        return "OS: ".PHP_OS."\n";
     }
 
     function getDev(){
-        echo "Nome do grupo: Joao, alcateia de um lobo só\n";
+        return "Nome do grupo: Joao, alcateia de um lobo só\n";
     }
 
     function getInfo(){
         $info = shell_exec("uname -a");
-        echo "Infos do OS: ".$info;
+        return "Infos do OS: ".$info;
     }
 
 
@@ -52,8 +53,41 @@
         $out = socket_read($socket, 2048);
         $pos = strpos($out, '[');
         $json = substr($out, $pos);
-        $obj = json_decode($json);
-        echo $obj[0]->{'high'};
+        $json = str_replace("0", "", $json);
+        $json = str_replace("[", "", $json);
+        $json = str_replace("]", "", $json);
+        $json = str_replace("\r\n\r\n\r\n", "", $json);
+        return $json."\n";
+        
     }
+
+    function getCabecalho(){
+        $msg = "#\r\n";
+        $msg.= "#BEM VINDO\r\n";
+        $msg.= "#\r\n";
+        $msg.= "#\r\n";
+        $msg.= "#TCP MESSAGE BY PHP :)\r\n";
+        $msg.= "#\r\n";
+        $msg.= "#\r\n";
+        $msg.= "#\r\n";
+        $msg.= "#COMMANDS AVAIABLE:\r\n";
+        $msg.= "#-\\quem\r\n";
+        $msg.= "#-\\data\r\n";
+        $msg.= "#-\\ip\r\n";
+        $msg.= "#-\\mac\r\n";
+        $msg.= "#-\\sys\r\n";
+        $msg.= "#-\\dev\r\n";
+        $msg.= "#-\\info\r\n";
+        $msg.= "#-\\dolar\r\n";
+        $msg.= "#\r\n";
+        $msg.= "#\r\n";
+        $msg.= "#HAVING FUN!\r\n";
+
+        return $msg;
+    }
+
+
     getDolar();
+
+    
 ?>
